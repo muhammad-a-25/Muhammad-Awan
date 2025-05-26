@@ -50,6 +50,6 @@ print(correlation) #Glucose and Outcome: 0.49, positive correlation — higher g
 
 # %% Constructing a Heatmap
 import seaborn as sns
-sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f")
+sns.heatmap(correlation, annot=True)
 plt.title("Correlation Heatmap")
 plt.show()
