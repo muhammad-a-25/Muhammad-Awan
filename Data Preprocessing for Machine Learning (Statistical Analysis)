@@ -1,0 +1,55 @@
+# %% Load and display data
+import pandas as pd
+import matplotlib.pyplot as plt
+
+diabetes= pd.read_csv('diabetes.csv');
+print(diabetes.head());
+print(diabetes.tail());
+
+# %% Applying basic Stastical tools
+glucose_max = diabetes['Glucose'].max()
+glucose_min = diabetes['Glucose'].min()
+print(diabetes['Glucose'].max()) #which is 199
+print(diabetes['Glucose'].min()) #which is 0
+range_glucose= glucose_max - glucose_min
+print(range_glucose)
+mean_glucose= diabetes['Glucose'].mean()
+median_glucose = diabetes['Glucose'].median()
+variance_glucose= diabetes['Glucose'].var()
+patient_parameters=diabetes.loc[diabetes['Glucose']==199]
+print(patient_parameters)
+
+# %% Plotting Histogram before cleaning
+plt.hist(diabetes['Glucose'], bins=40, color='blue', edgecolor='black')
+plt.title("Glucose Level Distribution")
+plt.xlabel("Glucose Level")
+plt.ylabel("Frequency")
+plt.show()
+
+# %% Removing Outliers
+diabetes=diabetes[diabetes['Glucose']!=0]
+stat_diabetes=diabetes.describe()
+print(stat_diabetes)
+
+# %% Plotting Histogram after cleaning
+plt.hist(diabetes['Glucose'], bins=40, color='red', edgecolor='black') 
+plt.title("Cleaned Glucose Level Distribution")
+plt.xlabel("Glucose Level")
+plt.ylabel("Frequency")
+plt.show()
+
+# %% Finding statistical correlation
+covariance= diabetes.cov()
+print(covariance) 
+
+correlation = diabetes.corr()
+print(correlation) #Glucose and Outcome: 0.49, positive correlation — higher glucose is associated with a greater chance of diabetes.
+# Age and Pregnancies: 0.54, positive correlation — older patients tend to have had more pregnancies.
+# BMI and Outcome: 0.29, Weak positive correlation — higher BMI slightly increases diabetes likelihood.
+# SkinThickness and Insulin: 0.44, slight positive — people with thicker skin tend to have higher insulin levels.
+
+# %% Constructing a Heatmap
+import seaborn as sns
+sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Correlation Heatmap")
+plt.show()
